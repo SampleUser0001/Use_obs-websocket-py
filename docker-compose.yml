@@ -2,6 +2,7 @@ version: '3'
 services:
   python:
     build: .
-    container_name: python
+    container_name: obs-websocket-py
     volumes:
       - ./app:/opt/app
+    tty: true

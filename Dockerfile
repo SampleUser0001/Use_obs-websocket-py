@@ -1,7 +1,12 @@
 # 任意のイメージを取得
-FROM python:3.10-rc-slim-buster
+FROM python
+
+RUN apt update && apt -y update
+RUN apt install -y less
 
 RUN ln -sf /usr/share/zoneinfo/Asia/Tokyo /etc/localtime
+
+RUN pip install obs-websocket-py python-dotenv
 
 WORKDIR /opt/app
 

@@ -1,6 +1,10 @@
 # -*- coding: utf-8 -*-
 from logging import getLogger, config, StreamHandler, DEBUG
 import os
+import importenv as setting
+from importenv import ImportEnvKeyEnum
+
+from obswebsocket import obsws, requests
 
 import sys
 sys.path.append('./')
@@ -17,5 +21,18 @@ logger.addHandler(handler)
 logger.propagate = False
 
 if __name__ == '__main__':
-  print('Hello Python on Docker!!')
-  logger.info('This is logger message!!')
+
+  host = setting.ENV_DIC[ImportEnvKeyEnum.IP_ADDRESS.value]
+  port = int(setting.ENV_DIC[ImportEnvKeyEnum.SERVER_PORT.value])
+  password = setting.ENV_DIC[ImportEnvKeyEnum.PASSWORD.value]
+
+  ws = obsws(host, port, password)
+  ws.connect()
+
+  scenes = ws.call(requests.GetSceneList())
+
+  if scenes.status:
+      for s in scenes.getScenes():
+          print(s["name"])
+
+  ws.disconnect()

@@ -1,17 +1,36 @@
-# Template Python on Docker
+# Use_obs-websocket-py
+
+OBSのWebsocket、obs-websocket-pyを使ってみる。
 
 ## 使い方
 
-1. Dockerfileのimageを変更する。
-2. 必要に応じてDockerfileにpipを書く。
-3. 必要に応じてdocker-compose.ymlを修正する。
+### OBS側の準備
+
+1. OBSインストール
+2. obs-websocketをインストールする。
+   - 下記からインストーラをダウンロード
+   - [https://github.com/Palakis/obs-websocket/releases](https://github.com/Palakis/obs-websocket/releases)
+3. OBS起動 -> ツール -> Websocket サーバ設定をクリック
+4. Websocketの設定を行い、OKボタンを押下。
+   - 「WebSockets サーバーを有効にする」をチェック
+   - サーバーポートの値を確認
+   - 「認証を有効にする」をチェック
+   - パスワードに任意の値を入力
+
+### コンテナ起動
+
+1. コンテナ内から見たホストのIPを確認する。
+``` sh
+ip route | awk 'NR==1 {print $3}'
+```
+2. sample.envをコピーして、.envファイルを作成
+3. .envファイルにコメントに記載してある値を入力して保存。
 4. 下記実行。
-    ``` sh
-    docker-compose build
-    docker-compose up
-    ```
+``` sh
+docker-compose up
+```
 
 ## 参考
 
-- [Qiita:Docker を使う（python のイメージで色々確認してみる）](https://qiita.com/landwarrior/items/fd918da9ebae20486b81)
-- [Future Tech Blog:仕事でPythonコンテナをデプロイする人向けのDockerfile (1): オールマイティ編](https://future-architect.github.io/articles/20200513/)
+- [obs-websocket-pyの使い方ほか:Mokerの徒然日記2.0](https://mokerdiary.hatenablog.com/entry/2019/09/03/000000)
+
